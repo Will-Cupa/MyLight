@@ -18,7 +18,7 @@
         android:text="@string/remRed"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addRed"
+        app:layout_constraintTop_toBottomOf="@+id/addRed"
         app:layout_constraintEnd_toStartOf="@+id/remGreen"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toTopOf="@+id/remRed"
         app:layout_constraintEnd_toStartOf="@+id/addGreen"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/colorPreview"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:layout_margin="5dp"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@+id/remGreen"
         app:layout_constraintEnd_toStartOf="@+id/addBlue"
         app:layout_constraintStart_toEndOf="@+id/addRed"
-        app:layout_constraintTop_toBottomOf="@+id/colorPreview" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:layout_margin="5dp"
@@ -64,23 +64,24 @@
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addGreen"
-        app:layout_constraintEnd_toStartOf="@id/remBlue"
-        app:layout_constraintStart_toEndOf="@id/remRed" />
+        app:layout_constraintEnd_toStartOf="@+id/remBlue"
+        app:layout_constraintStart_toEndOf="@+id/remRed" />
 
     <Button
-        android:layout_margin="5dp"
-        android:backgroundTint="@color/grey"
         android:id="@+id/addBlue"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_marginEnd="681dp"
+        android:backgroundTint="@color/grey"
         android:text="@string/addBlue"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toTopOf="@+id/remBlue"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/colorPreview"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintVertical_weight="1"
         app:layout_constraintStart_toEndOf="@+id/addGreen"
-        app:layout_constraintTop_toBottomOf="@+id/colorPreview" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1" />
 
     <Button
         android:layout_margin="5dp"
@@ -94,21 +95,22 @@
         android:text="@string/remBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addBlue"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/colorPreview"
         app:layout_constraintStart_toEndOf="@+id/remGreen" />
 
     <Button
         android:id="@+id/colorPreview"
-        android:backgroundTint="@color/red"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintVertical_weight="4"
+        android:layout_marginStart="4dp"
+        android:backgroundTint="@color/red"
         android:text="@string/preview"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/addGreen"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toEndOf="@+id/addBlue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintHorizontal_weight="4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
