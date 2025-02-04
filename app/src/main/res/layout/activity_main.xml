@@ -9,29 +9,29 @@
 
     <Button
         android:id="@+id/remRed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintHorizontal_weight="1"
         android:text="- red"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addRed"
         app:layout_constraintEnd_toStartOf="@+id/remGreen"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/addRed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-
-        android:layout_marginBottom="19dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintHorizontal_weight="1"
         android:text="+ red"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toTopOf="@+id/remRed"
         app:layout_constraintEnd_toStartOf="@+id/addGreen"
-        app:layout_constraintHorizontal_bias="0.263"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/colorPreview"/>
 
     <Button
         android:id="@+id/addGreen"
@@ -40,9 +40,10 @@
         app:layout_constraintVertical_weight="1"
         app:layout_constraintHorizontal_weight="1"
         android:text="+ green"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toTopOf="@+id/remGreen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addBlue"
+        app:layout_constraintStart_toEndOf="@+id/addRed"
         app:layout_constraintTop_toBottomOf="@+id/colorPreview" />
 
     <Button
@@ -52,6 +53,7 @@
         app:layout_constraintVertical_weight="1"
         app:layout_constraintHorizontal_weight="1"
         android:text="- green"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addGreen"
         app:layout_constraintEnd_toStartOf="@id/remBlue"
@@ -62,17 +64,19 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="+ blue"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toTopOf="@+id/remBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintVertical_weight="1"
         app:layout_constraintStart_toEndOf="@+id/addGreen"
-        app:layout_constraintTop_toBottomOf="@+id/colorPreview"
-        app:layout_constraintVertical_weight="1" />
+        app:layout_constraintTop_toBottomOf="@+id/colorPreview" />
 
     <Button
         android:id="@+id/remBlue"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:cornerRadius="0dp"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintVertical_weight="1"
         android:text="- blue"
@@ -84,15 +88,14 @@
     <Button
         android:id="@+id/colorPreview"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="500dp"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintVertical_weight="1"
         android:text="Button"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toTopOf="@+id/addGreen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
