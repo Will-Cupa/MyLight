@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int lampColor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        buttonList = new Button[6];
-        lampColor = getResources().getColor(R.color.red);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -31,6 +29,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return insets;
         });
 
+        buttonList = new Button[6];
+        if(savedInstanceState != null){
+            lampColor = savedInstanceState.getInt("LAMP COLOR");
+        }else {
+            lampColor = getResources().getColor(R.color.red);
+        }
+
         ViewGroup main = (ViewGroup) findViewById(R.id.main);
 
         for(int i=0; i < main.getChildCount(); i++){
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(child.getId() == R.id.colorPreview){
                     preview = (Button) child;
                     preview.setBackgroundColor(lampColor);
+                    updateTextColor();
                 } else {
                     buttonList[i] = (Button) child;
                     child.setOnClickListener(this);
@@ -48,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("LAMP COLOR", lampColor);
+    }
+
+        @Override
     public void onClick(View button) {
         int red = Color.red(lampColor);
         int green = Color.green(lampColor);
@@ -94,6 +106,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         lampColor = Color.rgb(red, green, blue);
+
+        updateTextColor();
         preview.setBackgroundColor(lampColor);
+    }
+
+    public void updateTextColor(){
+        if(Color.luminance(lampColor) <= 0.5){
+            preview.setTextColor(getResources().getColor(R.color.white));
+        }else{
+            preview.setTextColor(getResources().getColor(R.color.black));
+        }
     }
 }
