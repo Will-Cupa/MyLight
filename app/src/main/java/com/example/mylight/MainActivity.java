@@ -2,6 +2,7 @@ package com.example.mylight;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button[] buttonList;
     private Button preview;
+    private Thread rainbowThread;
 
     private int lampColor;
     @Override
@@ -67,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int id = button.getId();
 
+        if (id == R.id.colorPreview) {
+
+        }
+
         if (id == R.id.addRed) {
             red += 10;
 
@@ -116,6 +122,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             preview.setTextColor(getResources().getColor(R.color.white));
         }else{
             preview.setTextColor(getResources().getColor(R.color.black));
+        }
+    }
+
+    private class rainbowThread extends Thread {
+        private int colorSet[];
+        private final Handler handler = new Handler();
+
+        public void randomColors(){
+            for(int i = 0; i < colorSet.length; i++){
+                colorSet[i] = (int)Math.random();
+            }
+        }
+        @Override
+        public void run(){
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    lampColor = colorSet[0];
+                }
+            });
         }
     }
 }
