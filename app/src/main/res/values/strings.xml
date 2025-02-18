@@ -7,4 +7,6 @@
     <string name="remBlue">less blue</string>
     <string name="addGreen">more green</string>
     <string name="remGreen">less green</string>
+    <string name="title_activity_accueil">accueil</string>
+    <string name="welcome">Bienvenue !</string>
 </resources>
