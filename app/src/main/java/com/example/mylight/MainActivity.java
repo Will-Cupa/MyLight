@@ -3,6 +3,7 @@ package com.example.mylight;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int lampColor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("RainbowThread", "Thread started!");  // Affiche un message de débogage
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -70,10 +73,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = button.getId();
 
         if (id == R.id.colorPreview) {
+            RainbowThread thread = new RainbowThread();
 
-        }
-
-        if (id == R.id.addRed) {
+            thread.start();
+        } else if (id == R.id.addRed) {
             red += 10;
 
             if(red > 255){
@@ -125,23 +128,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private class rainbowThread extends Thread {
+    private class RainbowThread extends Thread {
         private int colorSet[];
-        private final Handler handler = new Handler();
+        private final Handler handler;
+
+        public RainbowThread(){
+            colorSet = new int[6];
+            handler = new Handler();
+        }
 
         public void randomColors(){
             for(int i = 0; i < colorSet.length; i++){
-                colorSet[i] = (int)Math.random();
+                colorSet[i] = Color.rgb(0,0,255);
+                //(int)(10 * Math.random())
             }
         }
         @Override
         public void run(){
+            int r = Color.rgb(0,0,255);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    lampColor = colorSet[0];
+                    preview.setBackgroundColor(r);
                 }
             });
+
         }
     }
 }
