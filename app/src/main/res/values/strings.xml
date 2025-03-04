@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">myLight</string>
+    <string name="red">red</string>
+    <string name="blue">blue</string>
+    <string name="green">green</string>
     <string name="preview">preview</string>
     <string name="addRed">more red</string>
     <string name="remRed">less red</string>
@@ -9,4 +12,5 @@
     <string name="remGreen">less green</string>
     <string name="title_activity_accueil">accueil</string>
     <string name="welcome">Bienvenue !</string>
+    <string name="author">My Lamp\n By Alain Sandoz</string>
 </resources>
