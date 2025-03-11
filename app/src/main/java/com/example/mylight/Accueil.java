@@ -18,7 +18,7 @@ public class Accueil extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d("TEST","started");
         EdgeToEdge.enable(this);
         setContentView(R.layout.accueil_layout);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

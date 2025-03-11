@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int lampColor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("RainbowThread", "Thread started!");  // Affiche un message de débogage
+        Log.d("TEST", "activity started!");  // Affiche un message de débogage
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return insets;
         });
 
-        buttonList = new Button[6];
+        buttonList = new Button[7];
         if(savedInstanceState != null){
             lampColor = savedInstanceState.getInt("LAMP COLOR");
         }else {
@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     updateTextColor();
                 } else {
                     buttonList[i] = (Button) child;
-                    child.setOnClickListener(this);
                 }
+                child.setOnClickListener(this);
             }
         }
     }
@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = button.getId();
 
         if (id == R.id.colorPreview) {
-            RainbowThread thread = new RainbowThread();
-
+            RainbowThread thread = new RainbowThread(lampColor, 7);
+            Log.d("Thread","button clicked");
             thread.start();
         } else if (id == R.id.addRed) {
             red += 10;
@@ -132,27 +132,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private int colorSet[];
         private final Handler handler;
 
-        public RainbowThread(){
-            colorSet = new int[6];
+        public RainbowThread(int initialColor, int colorNumber){
+            Log.d("Thread","thread created");
+            colorSet = new int[colorNumber + 1];
             handler = new Handler();
+            randomColors();
+            colorSet[colorNumber] = initialColor;
         }
 
         public void randomColors(){
-            for(int i = 0; i < colorSet.length; i++){
-                colorSet[i] = Color.rgb(0,0,255);
-                //(int)(10 * Math.random())
+            int red, green, blue;
+            for(int i = 0; i < colorSet.length - 1; i++){
+                red = (int) (Math.random() * 255);
+                green = (int) (Math.random() * 255);
+                blue = (int) (Math.random() * 255);
+
+                colorSet[i] =  Color.rgb(red, green, blue);
+                Log.d("color", String.valueOf(colorSet[i]));
             }
         }
         @Override
         public void run(){
-            int r = Color.rgb(0,0,255);
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    preview.setBackgroundColor(r);
+            Log.d("Thread","thread started");
+            for(int i = 0; i < colorSet.length; i++) {
+                int finalI = i;
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        preview.setBackgroundColor(colorSet[finalI]);
+                    }
+                });
+                //Pose d'une seconde entre chaque couleur
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            });
-
+            }
         }
     }
 }
