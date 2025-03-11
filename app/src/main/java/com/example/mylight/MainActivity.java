@@ -154,19 +154,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void run(){
             Log.d("Thread","thread started");
-            for(int i = 0; i < colorSet.length; i++) {
-                int finalI = i;
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        preview.setBackgroundColor(colorSet[finalI]);
+            for(int i = 0; i < colorSet.length - 1; i++) {
+                float fraction = 0;
+                while( fraction < 1){
+                    int color = (int)((colorSet[i+1] - colorSet[i]) * fraction + colorSet[i]);
+                    fraction += 0.1;
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            preview.setBackgroundColor(color);
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
-                });
-                //Pose d'une seconde entre chaque couleur
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
                 }
             }
         }
