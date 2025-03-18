@@ -25,7 +25,7 @@ import java.io.BufferedReader;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button[] buttonList;
     private Button preview;
-    private RainbowThread rainbowThread;
+    private Thread rainbowThread, serverThread;
     private int lampColor;
 
     @Override
@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        new ServerThread();
 
         buttonList = new Button[7];
         if(savedInstanceState != null){
@@ -134,8 +132,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         lampColor = Color.rgb(red, green, blue);
 
-        updateTextColor(lampColor);
-        preview.setBackgroundColor(lampColor);
+        updateColor(lampColor);
+    }
+
+
+    public void updateColor(int color){
+        updateTextColor(color);
+        preview.setBackgroundColor(color);
+
+        if(serverThread == null || serverThread.getState() == Thread.State.TERMINATED){
+            serverThread = new ServerThread(color);
+            serverThread.start();
+        }
     }
 
     public void updateTextColor(int color){
@@ -196,8 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            preview.setBackgroundColor(color);
-                            updateTextColor(color);
+                            updateColor(color);
                         }
                     });
 
@@ -213,6 +220,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private class ServerThread extends Thread {
         private final Handler handler = new Handler();
+        private final int color;
+
+        public ServerThread(int color){
+            this.color = color;
+        }
+
+        public String formatChannel(int channel){
+            String result;
+            result = Integer.toHexString(channel);
+            if(result.length() < 2){
+                result = "0" + result;
+            }
+            return result;
+        }
+
+        public String formatColor(){
+            return formatChannel(Color.red(color)) + formatChannel(Color.green(color)) + formatChannel(Color.blue(color));
+        }
 
         public void run() {
             try {
@@ -222,7 +247,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 // Envoi des deux paramètres au serveur
-                //writer.println(lampColor);
+                writer.println("01" + formatColor());
+                Log.d("server", formatColor());
+
                 try {
                     // Gestion de l'interruption potentielle tant que le serveur n'a pas répondu
                     while (!reader.ready()) {
