@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button[] buttonList;
     private Button preview;
-    private Thread rainbowThread;
+    private RainbowThread rainbowThread;
 
     private int lampColor;
     @Override
@@ -73,9 +73,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = button.getId();
 
         if (id == R.id.colorPreview) {
-            RainbowThread thread = new RainbowThread(lampColor, 7);
-            Log.d("Thread","button clicked");
-            thread.start();
+            if(rainbowThread == null) {
+                rainbowThread = new RainbowThread(lampColor, 7);
+            }
+
+            Thread.State state = rainbowThread.getState();
+            if(state == Thread.State.NEW || state == Thread.State.TERMINATED){
+                Log.d("Thread", String.valueOf(state));
+                rainbowThread.start();
+            }
+
         } else if (id == R.id.addRed) {
             red += 10;
 
@@ -129,8 +136,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private class RainbowThread extends Thread {
-        private int colorSet[];
+        private final int colorSet[];
         private final Handler handler;
+
+        private boolean started;
 
         public RainbowThread(int initialColor, int colorNumber){
             Log.d("Thread","thread created");
@@ -170,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("Thread","thread started");
             for(int i = 0; i < colorSet.length - 1; i++) {
                 float fraction = 0;
-                while( fraction < 1){
+                while(fraction < 1){
                     int color = lerpColor(i,fraction);
                     fraction += 0.01;
                     handler.post(new Runnable() {
