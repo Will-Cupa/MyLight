@@ -11,6 +11,6 @@
     <string name="addGreen">more green</string>
     <string name="remGreen">less green</string>
     <string name="title_activity_accueil">accueil</string>
-    <string name="welcome">Bienvenue !</string>
+    <string name="welcome">Welcome !</string>
     <string name="author">My Lamp\n By Alain Sandoz</string>
 </resources>

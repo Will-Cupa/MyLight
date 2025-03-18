@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ma Lampe</string>
+    <string name="red">rouge</string>
+    <string name="blue">bleu</string>
+    <string name="green">vert</string>
+    <string name="preview">aperçu</string>
+    <string name="addRed">ajouter du rouge</string>
+    <string name="remRed">ajouter du rouge</string>
+    <string name="addBlue">ajouter du bleu</string>
+    <string name="remBlue">retirer du bleu</string>
+    <string name="addGreen">ajouter du vert</string>
+    <string name="remGreen">retirer du vert</string>
+    <string name="title_activity_accueil">accueil</string>
+    <string name="welcome">Bienvenue !</string>
+    <string name="author">Ma Lampe\npar Alain Sandoz</string>
+</resources>
