@@ -1,6 +1,8 @@
 package com.example.mylight;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("TEST", "activity started!");  // Affiche un message de débogage
 
         super.onCreate(savedInstanceState);
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         //Toolbar padding
@@ -86,13 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = button.getId();
 
         if (id == R.id.colorPreview) {
-            if(rainbowThread == null) {
+            if(rainbowThread == null || rainbowThread.getState() == Thread.State.TERMINATED){
                 rainbowThread = new RainbowThread(lampColor, 7);
-            }
-
-            Thread.State state = rainbowThread.getState();
-            if(state == Thread.State.NEW || state == Thread.State.TERMINATED){
-                Log.d("Thread", String.valueOf(state));
                 rainbowThread.start();
             }
 
