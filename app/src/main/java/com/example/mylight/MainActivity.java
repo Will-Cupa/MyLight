@@ -14,12 +14,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.io.PrintWriter;
+import java.io.BufferedReader;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button[] buttonList;
     private Button preview;
     private RainbowThread rainbowThread;
-
     private int lampColor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("TEST", "activity started!");  // Affiche un message de débogage
@@ -33,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        new ServerThread();
 
         buttonList = new Button[7];
         if(savedInstanceState != null){
@@ -196,6 +204,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         throw new RuntimeException(e);
                     }
                 }
+            }
+        }
+    }
+
+    private class ServerThread extends Thread {
+        private final Handler handler = new Handler();
+
+        public void run() {
+            try {
+                // Tentative de connexion au server
+                Socket socket = new Socket("chadok.info", 9998);
+                // Flux sortant et entrant
+                PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                // Envoi des deux paramètres au serveur
+                //writer.println(lampColor);
+                try {
+                    // Gestion de l'interruption potentielle tant que le serveur n'a pas répondu
+                    while (!reader.ready()) {
+                        Thread.sleep(500);
+                    }
+                    // Lecture du résultat
+                    Log.i("server",reader.readLine());
+                    // Affichage du résultat
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    // Cas où l'utilisateurice a demandé l'interruption
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+                socket.close();
+            } catch (IOException e) {
+                // Cas où la connexion au serveur a échoué
+                throw new RuntimeException(e);
             }
         }
     }
