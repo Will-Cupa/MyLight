@@ -46,7 +46,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(savedInstanceState != null){
             lampColor = savedInstanceState.getInt("LAMP COLOR");
         }else {
-            lampColor = getResources().getColor(R.color.red);
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                lampColor = extras.getInt("color");
+            } else {
+                lampColor = 0;
+            }
         }
 
         ViewGroup main = (ViewGroup) findViewById(R.id.main);

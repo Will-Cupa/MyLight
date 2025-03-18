@@ -37,8 +37,19 @@ public class Accueil extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-    public void onClick(View view){
+    public void onClick(View button){
+        int id = button.getId();
+        int color = 0;
+        if(id == R.id.buttonRed) {
+            color = getResources().getColor(R.color.red);
+        } else if(id == R.id.buttonGreen){
+            color = getResources().getColor(R.color.green);
+        } else if(id == R.id.buttonBlue){
+            color= getResources().getColor(R.color.blue);
+        }
+
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("color", color);
         startActivity(intent);
     }
 }
