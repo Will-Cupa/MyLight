@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(child.getId() == R.id.colorPreview){
                     preview = (Button) child;
                     preview.setBackgroundColor(lampColor);
-                    updateTextColor();
+                    updateTextColor(lampColor);
                 } else {
                     buttonList[i] = (Button) child;
                 }
@@ -116,12 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         lampColor = Color.rgb(red, green, blue);
 
-        updateTextColor();
+        updateTextColor(lampColor);
         preview.setBackgroundColor(lampColor);
     }
 
-    public void updateTextColor(){
-        if(Color.luminance(lampColor) <= 0.5){
+    public void updateTextColor(int color){
+        if(Color.luminance(color) <= 0.5){
             preview.setTextColor(getResources().getColor(R.color.white));
         }else{
             preview.setTextColor(getResources().getColor(R.color.black));
@@ -137,12 +137,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             colorSet = new int[colorNumber + 1];
             handler = new Handler();
             randomColors();
+            colorSet[0] = initialColor;
             colorSet[colorNumber] = initialColor;
         }
 
         public void randomColors(){
             int red, green, blue;
-            for(int i = 0; i < colorSet.length - 1; i++){
+            for(int i = 1; i < colorSet.length - 1; i++){
                 red = (int) (Math.random() * 255);
                 green = (int) (Math.random() * 255);
                 blue = (int) (Math.random() * 255);
@@ -151,23 +152,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("color", String.valueOf(colorSet[i]));
             }
         }
+
+        public int lerpColor(int i, float factor){
+            int red = lerpChannel(Color.red(colorSet[i]),Color.red(colorSet[i+1]), factor);
+            int green = lerpChannel(Color.green(colorSet[i]),Color.green(colorSet[i+1]), factor);
+            int blue = lerpChannel(Color.blue(colorSet[i]),Color.blue(colorSet[i+1]), factor);
+
+            return Color.rgb(red,green,blue);
+        }
+
+        public int lerpChannel(int chan1, int chan2, float factor){
+            return (int)((chan2 - chan1) * factor + chan1);
+        }
+
         @Override
         public void run(){
             Log.d("Thread","thread started");
             for(int i = 0; i < colorSet.length - 1; i++) {
                 float fraction = 0;
                 while( fraction < 1){
-                    int color = (int)((colorSet[i+1] - colorSet[i]) * fraction + colorSet[i]);
-                    fraction += 0.1;
+                    int color = lerpColor(i,fraction);
+                    fraction += 0.01;
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
                             preview.setBackgroundColor(color);
+                            updateTextColor(color);
                         }
                     });
 
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
