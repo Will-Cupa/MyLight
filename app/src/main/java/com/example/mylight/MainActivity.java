@@ -275,7 +275,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 socket.close();
             } catch (IOException e) {
                 // Cas où la connexion au serveur a échoué
-                throw new RuntimeException(e);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
             }
         }
     }
