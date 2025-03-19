@@ -1,24 +1,36 @@
 package com.example.mylight;
 
+import static android.graphics.BlendMode.COLOR;
+import static android.graphics.BlendMode.PLUS;
+import static android.graphics.Shader.TileMode.CLAMP;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ComposeShader;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
+import android.graphics.RuntimeShader;
+import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.compose.ui.graphics.TileMode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ColorPicker extends View {
-    final int[] COLORS2 = new int[]{Color.parseColor("#33004c"), Color.parseColor("#4600d2"),
-            Color.parseColor("#0000ff"), Color.parseColor("#0099ff"),
-            Color.parseColor("#00eeff"),Color.parseColor("#00FF7F"),
-            Color.parseColor("#48FF00"),Color.parseColor("#B6FF00"),
-            Color.parseColor("#FFD700"),Color.parseColor("#ff9500"),
-            Color.parseColor("#FF6200"),Color.parseColor("#FF0000"),
-            Color.parseColor("#33004c")};
+
+    private int step = 1;
+    private int[] gradientColors = new int[360/step];
     private Paint piePaint;
     private float diameter;
+
+
 
     private RectF bounds;
     public ColorPicker(Context context, AttributeSet attrs) {
@@ -40,21 +52,24 @@ public class ColorPicker extends View {
         // Figure out how big you can make the pie.
         diameter = Math.min(ww, hh);
         bounds = new RectF(0,0, getWidth(),getHeight());
-        //piePaint.setShader(new SweepGradient(getWidth()/2, getHeight()/2, COLORS2, null));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        // hsv[0] --> hue
+        // hsv[1] --> saturation
+        // hsv[2] --> value
 
         float angle = 0;
-        float step = 30;
         while(angle <360){
-            piePaint.setColor(Color.rgb(255,255,0));
-            canvas.drawArc(bounds,angle, step, true, piePaint);
-
+            gradientColors[(int)angle] = Color.HSVToColor(new float[]{angle,1,1});
             angle += step;
         }
-        //canvas.drawCircle(getWidth()/2, getHeight()/2, diameter/2, piePaint);
+
+        Shader shader = new SweepGradient(getWidth()/2, getHeight()/2, gradientColors, null);
+        piePaint.setShader(shader);
+
+        canvas.drawCircle(getWidth()/2, getHeight()/2, diameter/2, piePaint);
     }
 }
