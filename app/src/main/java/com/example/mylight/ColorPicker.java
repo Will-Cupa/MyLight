@@ -5,10 +5,13 @@ import static android.graphics.BlendMode.PLUS;
 import static android.graphics.Shader.TileMode.CLAMP;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ComposeShader;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.RuntimeShader;
@@ -28,11 +31,9 @@ public class ColorPicker extends View {
     private int step = 1;
     private int[] gradientColors = new int[360/step];
     private Paint piePaint;
+    private Bitmap bitmap;
     private float diameter;
-
-
-
-    private RectF bounds;
+    private int height, width;
     public ColorPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
         piePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -50,8 +51,34 @@ public class ColorPicker extends View {
         float hh = (float)h - ypad;
 
         // Figure out how big you can make the pie.
+        height = getHeight();
+        width = getWidth();
         diameter = Math.min(ww, hh);
-        bounds = new RectF(0,0, getWidth(),getHeight());
+    }
+
+    private void initBitmap(){
+        bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bitmap);
+
+        Shader shaderA = new RadialGradient(getWidth()/2, getHeight()/2, diameter/2, Color.rgb(255,255,255), Color.rgb(0,0,0), CLAMP);
+        Shader shaderB = new SweepGradient(getWidth()/2, getHeight()/2, gradientColors, null);
+
+        // Create a paint and apply first shader
+        Paint sweepPaint = new Paint();
+        sweepPaint.setShader(shaderB);
+
+        c.drawCircle(width/2, height/2, diameter/2, sweepPaint);
+
+        //Create and apply second shader
+        Paint gradPaint = new Paint();
+        gradPaint.setShader(shaderA);
+
+        gradPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SCREEN)); //enable shader blending
+
+        c.drawCircle(width/2, height/2, diameter/2, gradPaint);
+
+        // Reset Xfermode
+        //gradPaint.setXfermode(null);
     }
 
     @Override
@@ -67,9 +94,7 @@ public class ColorPicker extends View {
             angle += step;
         }
 
-        Shader shader = new SweepGradient(getWidth()/2, getHeight()/2, gradientColors, null);
-        piePaint.setShader(shader);
-
-        canvas.drawCircle(getWidth()/2, getHeight()/2, diameter/2, piePaint);
+        initBitmap();
+        canvas.drawBitmap(bitmap, 0,0, null);
     }
 }
