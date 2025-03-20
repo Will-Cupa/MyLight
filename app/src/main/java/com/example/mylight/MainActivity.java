@@ -1,8 +1,6 @@
 package com.example.mylight;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,6 +15,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.example.mylight.fragments.ColorPickerFragment;
+import com.example.mylight.fragments.RGBSelectFragment;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        RGBSelectFragment frag = new RGBSelectFragment();
-
+        //RGBSelectFragment frag = new RGBSelectFragment();
+        ColorPickerFragment frag = new ColorPickerFragment();
         setColorSelectFragment(frag);
 
         ViewGroup main = (ViewGroup) findViewById(R.id.main);

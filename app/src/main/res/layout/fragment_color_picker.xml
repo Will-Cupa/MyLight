@@ -5,9 +5,10 @@
     android:id="@+id/ColorPickerMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ColorPickerFragment">
+    tools:context=".fragments.ColorPickerFragment">
 
-    <com.example.mylight.ColorPicker
+    <com.example.mylight.views.ColorPicker
+        android:id="@+id/ColorWheel"
         android:layout_width="301dp"
         android:layout_height="365dp"
         app:layout_constraintBottom_toBottomOf="parent"

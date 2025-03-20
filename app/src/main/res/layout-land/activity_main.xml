@@ -8,108 +8,19 @@
     tools:context=".MainActivity">
 
     <Button
-        android:layout_margin="5dp"
-        android:backgroundTint="@color/grey"
-        android:id="@+id/remRed"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintHorizontal_weight="1"
-        android:text="@string/remRed"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addRed"
-        app:layout_constraintEnd_toStartOf="@+id/remGreen"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:layout_margin="5dp"
-        android:backgroundTint="@color/grey"
-        android:id="@+id/addRed"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintHorizontal_weight="1"
-        android:text="@string/addRed"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/remRed"
-        app:layout_constraintEnd_toStartOf="@+id/addGreen"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:layout_margin="5dp"
-        android:backgroundTint="@color/grey"
-        android:id="@+id/addGreen"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintHorizontal_weight="1"
-        android:text="@string/addGreen"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/remGreen"
-        app:layout_constraintEnd_toStartOf="@+id/addBlue"
-        app:layout_constraintStart_toEndOf="@+id/addRed"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:layout_margin="5dp"
-        android:backgroundTint="@color/grey"
-        android:id="@+id/remGreen"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintHorizontal_weight="1"
-        android:text="@string/remGreen"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addGreen"
-        app:layout_constraintEnd_toStartOf="@+id/remBlue"
-        app:layout_constraintStart_toEndOf="@+id/remRed" />
-
-    <Button
-        android:id="@+id/addBlue"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:layout_marginEnd="681dp"
-        android:backgroundTint="@color/grey"
-        android:text="@string/addBlue"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/remBlue"
-        app:layout_constraintEnd_toStartOf="@+id/colorPreview"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/addGreen"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="1" />
-
-    <Button
-        android:layout_margin="5dp"
-        android:backgroundTint="@color/grey"
-        android:id="@+id/remBlue"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:cornerRadius="0dp"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintVertical_weight="1"
-        android:text="@string/remBlue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBlue"
-        app:layout_constraintEnd_toStartOf="@+id/colorPreview"
-        app:layout_constraintStart_toEndOf="@+id/remGreen" />
-
-    <Button
         android:id="@+id/colorPreview"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:backgroundTint="@color/red"
+        android:layout_height="match_parent"
         android:text="@string/preview"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/addBlue"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintHorizontal_weight="4" />
+        app:layout_constraintStart_toEndOf="@+id/fragmentFrame"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/fragmentFrame"
+        app:layout_constraintEnd_toStartOf="@+id/colorPreview"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

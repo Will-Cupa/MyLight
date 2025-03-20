@@ -1,41 +1,26 @@
-package com.example.mylight;
+package com.example.mylight.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class RGBSelectFragment extends Fragment implements View.OnClickListener{
-    private MainActivity owner;
-    private int lampColor;
+import com.example.mylight.MainActivity;
+import com.example.mylight.R;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+public class RGBSelectFragment extends ColorSelectFragment implements View.OnClickListener{
+
+    public RGBSelectFragment(){
+        fragmentId = R.layout.fragment_rgb_select;
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rgb_select, container, false);
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if(getActivity() != null){
-            lampColor = ((MainActivity)getActivity()).getLampColor();
-        }
 
         ViewGroup main = (ViewGroup) view.findViewById(R.id.RGBSelectMain);
 
@@ -47,10 +32,6 @@ public class RGBSelectFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-
-    public void setLampColor(int color){
-        lampColor = color;
-    }
 
     public void onClick(View button) {
         int red = Color.red(lampColor);

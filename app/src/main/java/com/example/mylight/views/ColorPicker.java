@@ -1,4 +1,4 @@
-package com.example.mylight;
+package com.example.mylight.views;
 
 import static android.graphics.BlendMode.COLOR;
 import static android.graphics.BlendMode.PLUS;
