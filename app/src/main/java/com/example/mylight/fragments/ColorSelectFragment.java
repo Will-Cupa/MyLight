@@ -15,10 +15,9 @@ import androidx.fragment.app.Fragment;
 import com.example.mylight.MainActivity;
 import com.example.mylight.R;
 
-public class ColorSelectFragment extends Fragment implements View.OnTouchListener {
+public class ColorSelectFragment extends Fragment{
     protected int lampColor;
     protected int fragmentId;
-    private int centerX, centerY, radius;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -27,14 +26,6 @@ public class ColorSelectFragment extends Fragment implements View.OnTouchListene
         if(getActivity() != null){
             lampColor = ((MainActivity)getActivity()).getLampColor();
         }
-
-        View ColorWheel = view.findViewById(R.id.ColorWheel);
-
-        centerX = ColorWheel.getWidth()/2;
-        centerY = ColorWheel.getHeight()/2;
-
-
-        ColorWheel.setOnTouchListener(this);
     }
 
     @Override
@@ -42,20 +33,5 @@ public class ColorSelectFragment extends Fragment implements View.OnTouchListene
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(fragmentId, container, false);
-    }
-
-    public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN){
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-
-            Log.d("ColorWheel", String.valueOf(getAngleWithYAxis(x - centerX, y - centerY)));
-        }
-        ((MainActivity)getActivity()).updateColor(0);
-        return true;
-    }
-
-    double getAngleWithYAxis(double pointY) {
-        return Math.toDegrees(Math.acos((pointY - centerY) / radius));; // Convert to degrees
     }
 }

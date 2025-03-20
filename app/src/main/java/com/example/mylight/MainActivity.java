@@ -147,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 blue = (int) (Math.random() * 255);
 
                 colorSet[i] =  Color.rgb(red, green, blue);
-                Log.d("color", String.valueOf(colorSet[i]));
             }
         }
 
