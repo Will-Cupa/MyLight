@@ -9,13 +9,14 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.SeekBar;
 
 import com.example.mylight.MainActivity;
 import com.example.mylight.R;
 
-public class ColorPickerFragment extends ColorSelectFragment  implements View.OnTouchListener {
+public class ColorPickerFragment extends ColorSelectFragment  implements View.OnTouchListener, SeekBar.OnSeekBarChangeListener {
 
-    private float radius;
+    private float hue, saturation, value, radius;
 
     public ColorPickerFragment(){
         fragmentId = R.layout.fragment_color_picker;
@@ -24,11 +25,21 @@ public class ColorPickerFragment extends ColorSelectFragment  implements View.On
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        View ColorWheel = view.findViewById(R.id.ColorWheel);
+        View colorWheel = view.findViewById(R.id.ColorWheel);
+        SeekBar seekBar = (SeekBar) view.findViewById(R.id.BrightnessSlider);
 
-        radius = 0.0f;
+        radius = 0;
+        hue = 0;
+        saturation = 1;
+        value = 1;
 
-        ColorWheel.setOnTouchListener(this);
+        seekBar.setOnSeekBarChangeListener(this);
+        colorWheel.setOnTouchListener(this);
+    }
+
+    public void updateColor(){
+        int color = Color.HSVToColor(new float[]{hue,saturation,value});
+        ((MainActivity)getActivity()).updateColor(color);
     }
 
     public boolean onTouch(View v, MotionEvent event) {
@@ -39,13 +50,29 @@ public class ColorPickerFragment extends ColorSelectFragment  implements View.On
             float x = event.getX() - v.getPivotX();
             float y = event.getY() - v.getPivotY();
 
-            float saturation = (float)Math.sqrt(x*x + y*y)/ radius;
-            float hue = (getAngleWithYAxis(x,y) + 360) % 360;
+            saturation = (float)Math.sqrt(x*x + y*y)/ radius;
+            hue = (getAngleWithYAxis(x,y) + 360) % 360;
 
-            int color = Color.HSVToColor(new float[]{hue,saturation,1});
-            ((MainActivity)getActivity()).updateColor(color);
+            updateColor();
         }
         return true;
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean formUser) {
+        value = progress/1000.0f;
+        updateColor();
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        //Log.d("slider", String.valueOf(seekBar.getProgress()));
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        //Log.d("slider", String.valueOf(seekBar.getProgress()));
     }
 
     float getAngleWithYAxis(float x, float y) {
