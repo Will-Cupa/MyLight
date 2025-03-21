@@ -4,9 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
@@ -57,7 +55,7 @@ public class ColorPickerFragment extends ColorSelectFragment  implements View.On
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             if(radius == 0.0f){
-                radius = Math.min(v.getWidth(),v.getHeight());
+                radius = (float)Math.min(v.getWidth(),v.getHeight())/2;
             }
 
             //Center of circle

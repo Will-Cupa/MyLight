@@ -14,4 +14,7 @@
     <string name="title_activity_accueil">accueil</string>
     <string name="welcome">Bienvenue !</string>
     <string name="author">Ma Lampe\npar Alain Sandoz</string>
+    <string name="RGB">Standard</string>
+    <string name="HSV">Roue</string>
+    <string name="saved">Favories</string>
 </resources>

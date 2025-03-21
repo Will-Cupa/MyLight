@@ -3,7 +3,6 @@ package com.example.mylight.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -26,7 +25,7 @@ public class ColorModeSelectionFragment extends Fragment implements View.OnClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Inflate the layout for this fragment
-        return inflater.inflate(R.layout.color_mode_selection, container, false);
+        return inflater.inflate(R.layout.fragment_color_mode_selection, container, false);
     }
 
     @Override
