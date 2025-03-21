@@ -14,13 +14,25 @@
         android:text="@string/preview"
         app:cornerRadius="0dp"
         app:layout_constraintStart_toEndOf="@+id/fragmentFrame"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <fragment
+        android:name="com.example.mylight.fragments.ColorModeSelectionFragment"
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentFrame"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/colorPreview"/>
 
     <FrameLayout
         android:id="@+id/fragmentFrame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toStartOf="@+id/colorPreview"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

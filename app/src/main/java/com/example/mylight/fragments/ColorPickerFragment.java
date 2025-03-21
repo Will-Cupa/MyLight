@@ -15,8 +15,8 @@ import com.example.mylight.MainActivity;
 import com.example.mylight.R;
 
 public class ColorPickerFragment extends ColorSelectFragment  implements View.OnTouchListener, SeekBar.OnSeekBarChangeListener {
-
     private float radius, colorHSV[];
+    private MainActivity owner;
 
     public ColorPickerFragment(){
         fragmentId = R.layout.fragment_color_picker;
@@ -25,15 +25,16 @@ public class ColorPickerFragment extends ColorSelectFragment  implements View.On
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         //Get view components
         View colorWheel = view.findViewById(R.id.ColorWheel);
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.BrightnessSlider);
+        owner = (MainActivity)getActivity();
 
         //Get color from main activity
-        int color = ((MainActivity)getActivity()).getLampColor();
+        int color = owner.getLampColor();
         //Convert it to HSV
         Color.colorToHSV(color, colorHSV);
 
@@ -49,7 +50,7 @@ public class ColorPickerFragment extends ColorSelectFragment  implements View.On
         int color = Color.HSVToColor(colorHSV);
 
         //Set color in main activity
-        ((MainActivity)getActivity()).updateColor(color);
+        owner.updateColor(color);
     }
 
     @Override
