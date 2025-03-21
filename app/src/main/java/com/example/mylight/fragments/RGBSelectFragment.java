@@ -5,7 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,7 +25,7 @@ public class RGBSelectFragment extends ColorSelectFragment implements View.OnCli
         super.onViewCreated(view, savedInstanceState);
 
         ViewGroup main = (ViewGroup) view.findViewById(R.id.RGBSelectMain);
-
+        owner = (MainActivity) getActivity();
         for (int i = 0; i < main.getChildCount(); i++) {
             View child = main.getChildAt(i);
             if (child instanceof Button) {
@@ -80,6 +82,6 @@ public class RGBSelectFragment extends ColorSelectFragment implements View.OnCli
 
         lampColor = Color.rgb(red, green, blue);
 
-        ((MainActivity)getActivity()).updateColor(lampColor);
+        owner.updateColor(lampColor);
     }
 }

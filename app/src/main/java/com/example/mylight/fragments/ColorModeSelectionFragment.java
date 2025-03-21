@@ -50,7 +50,7 @@ public class ColorModeSelectionFragment extends Fragment implements View.OnClick
         }else if(id == R.id.hsvSelect){
             owner.setColorSelectFragment(new ColorPickerFragment());
         }else if(id == R.id.savedColors){
-
+            owner.setColorSelectFragment(new SavedColorFragment());
         }
     }
 }

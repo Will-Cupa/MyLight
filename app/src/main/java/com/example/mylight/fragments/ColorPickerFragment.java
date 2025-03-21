@@ -29,9 +29,9 @@ public class ColorPickerFragment extends ColorSelectFragment  implements View.On
         //Get view components
         View colorWheel = view.findViewById(R.id.ColorWheel);
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.BrightnessSlider);
-        owner = (MainActivity)getActivity();
 
         //Get color from main activity
+        owner = (MainActivity)getActivity();
         int color = owner.getLampColor();
         //Convert it to HSV
         Color.colorToHSV(color, colorHSV);
