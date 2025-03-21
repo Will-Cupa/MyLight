@@ -15,7 +15,7 @@ import com.example.mylight.R;
 
 public class ColorPickerFragment extends ColorSelectFragment  implements View.OnTouchListener {
 
-    private float centerX, centerY, radius;
+    private float radius;
 
     public ColorPickerFragment(){
         fragmentId = R.layout.fragment_color_picker;
@@ -26,21 +26,23 @@ public class ColorPickerFragment extends ColorSelectFragment  implements View.On
 
         View ColorWheel = view.findViewById(R.id.ColorWheel);
 
-        centerX = ColorWheel.getX() + ColorWheel.getWidth()/2;
-        centerY = ColorWheel.getY() + ColorWheel.getHeight()/2;
-
+        radius = 0.0f;
 
         ColorWheel.setOnTouchListener(this);
     }
 
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN){
-            float x = event.getX();
-            float y = event.getY();
+            if(radius == 0.0f){
+                radius = Math.min(v.getWidth(),v.getHeight());
+            }
+            float x = event.getX() - v.getPivotX();
+            float y = event.getY() - v.getPivotY();
 
-            float hue = (getAngleWithYAxis(x - v.getPivotX(), y - v.getPivotY()) + 360) % 360;
+            float saturation = (float)Math.sqrt(x*x + y*y)/ radius;
+            float hue = (getAngleWithYAxis(x,y) + 360) % 360;
 
-            int color = Color.HSVToColor(new float[]{hue,1,1});
+            int color = Color.HSVToColor(new float[]{hue,saturation,1});
             ((MainActivity)getActivity()).updateColor(color);
         }
         return true;
