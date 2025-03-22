@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.example.mylight.MainActivity;
 import com.example.mylight.R;
 import com.example.mylight.SaveColorAdapter;
+import com.example.mylight.views.SavedColorButton;
 
 import java.util.ArrayList;
 
@@ -54,11 +55,8 @@ public class SavedColorFragment extends ColorSelectFragment implements View.OnCl
 
             editor.apply();
             adapter.notifyDataSetChanged();
-        } else {
-            owner.updateColor(colors.get(0));
-            //Here we shouldn't retrieve the color from the layout,
-            // but since it's created dynamically it's the same thing as accessing from the model
-            // but it's more simple and let me avoid adding references
+        } else if(view instanceof SavedColorButton){
+            owner.updateColor(colors.get(((SavedColorButton) view).getIndex()));
         }
     }
 

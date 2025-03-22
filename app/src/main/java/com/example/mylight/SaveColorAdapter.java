@@ -3,15 +3,12 @@ package com.example.mylight;
 
 
 import android.content.Context;
-import android.graphics.Color;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.GridView;
 
 import com.example.mylight.fragments.SavedColorFragment;
+import com.example.mylight.views.SavedColorButton;
 
 import java.util.ArrayList;
 
@@ -45,8 +42,9 @@ public class SaveColorAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null){
-            LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.saved_color_button, viewGroup, false);
+            //LayoutInflater inflater = LayoutInflater.from(context);
+            view = new SavedColorButton(owner.getContext(), i);
+                    //inflater.inflate(R.layout.saved_color_button, viewGroup, false);
 
             view.setOnClickListener(owner);
             view.setBackgroundColor(colorList.get(i));

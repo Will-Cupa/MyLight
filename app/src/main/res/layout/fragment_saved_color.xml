@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.RGBSelectFragment$SavedColorFragment">
+    android:layout_height="match_parent">
 
 
     <Button
@@ -24,7 +23,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveButton"
-        tools:listitem="@layout/saved_color_button"/>
+        app:layout_constraintTop_toBottomOf="@+id/saveButton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
