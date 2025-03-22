@@ -1,6 +1,10 @@
 package com.example.mylight;
 
+
+
 import android.content.Context;
+import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,11 +14,12 @@ import android.widget.GridView;
 import java.util.ArrayList;
 
 public class SaveColorAdapter extends BaseAdapter {
-
     private ArrayList<Integer> colorList;
     private Context context;
 
-    public SaveColorAdapter(Context context, ArrayList<Integer> colorList){
+    private MainActivity owner;
+
+    public SaveColorAdapter(Context context, ArrayList<Integer> colorList, MainActivity owner){
         this.context = context;
         this.colorList = colorList;
     }
@@ -36,19 +41,13 @@ public class SaveColorAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Button button;
-
         if(view == null){
-            button = new Button(context);
-            button.setLayoutParams(new GridView.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(R.layout.saved_color_button, viewGroup, false);
 
-            button.setBackgroundColor(colorList.get(i));
-        } else{
-            button = (Button)view;
+            view.setBackgroundColor(colorList.get(i));
         }
 
-        return button;
+        return view;
     }
 }

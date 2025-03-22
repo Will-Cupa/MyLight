@@ -16,7 +16,6 @@ import com.example.mylight.MainActivity;
 import com.example.mylight.R;
 
 public class ColorSelectFragment extends Fragment{
-
     protected MainActivity owner;
     protected int lampColor;
     protected int fragmentId;
