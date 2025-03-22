@@ -11,17 +11,20 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 
+import com.example.mylight.fragments.SavedColorFragment;
+
 import java.util.ArrayList;
 
 public class SaveColorAdapter extends BaseAdapter {
     private ArrayList<Integer> colorList;
     private Context context;
 
-    private MainActivity owner;
+    private SavedColorFragment owner;
 
-    public SaveColorAdapter(Context context, ArrayList<Integer> colorList, MainActivity owner){
+    public SaveColorAdapter(Context context, ArrayList<Integer> colorList, SavedColorFragment owner){
         this.context = context;
         this.colorList = colorList;
+        this.owner = owner;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class SaveColorAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.saved_color_button, viewGroup, false);
 
+            view.setOnClickListener(owner);
             view.setBackgroundColor(colorList.get(i));
         }
 

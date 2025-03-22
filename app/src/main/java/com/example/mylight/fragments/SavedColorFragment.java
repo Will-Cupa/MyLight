@@ -34,7 +34,7 @@ public class SavedColorFragment extends ColorSelectFragment implements View.OnCl
         owner = (MainActivity)getActivity();
 
         setColorList();
-        adapter = new SaveColorAdapter(getContext(), colors, owner);
+        adapter = new SaveColorAdapter(getContext(), colors, this);
 
         GridView grid = (GridView) view.findViewById(R.id.colorList);
         grid.setAdapter(adapter);
@@ -55,7 +55,7 @@ public class SavedColorFragment extends ColorSelectFragment implements View.OnCl
             editor.apply();
             adapter.notifyDataSetChanged();
         } else {
-            owner.updateColor(((ColorDrawable)view.getBackground()).getColor());
+            owner.updateColor(colors.get(0));
             //Here we shouldn't retrieve the color from the layout,
             // but since it's created dynamically it's the same thing as accessing from the model
             // but it's more simple and let me avoid adding references
