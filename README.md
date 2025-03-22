@@ -1,2 +1,2 @@
 # MyLight
-An Android app controling a usb light
+An Android app controling a light remotely
