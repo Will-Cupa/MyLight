@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.mylight.MainActivity;
+import com.example.mylight.Activities.MainActivity;
 import com.example.mylight.R;
 
 public class ColorModeSelectionFragment extends Fragment implements View.OnClickListener{
@@ -32,11 +32,14 @@ public class ColorModeSelectionFragment extends Fragment implements View.OnClick
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         owner = ((MainActivity)getActivity());
 
+        //Cast current view to viewGroup
         ViewGroup main = (ViewGroup) view;
 
+        //Get all its children
         for (int i = 0; i < main.getChildCount(); i++) {
             View child = main.getChildAt(i);
             if (child instanceof Button) {
+                //If it's a button, add a listener
                 child.setOnClickListener(this);
             }
         }
@@ -45,6 +48,8 @@ public class ColorModeSelectionFragment extends Fragment implements View.OnClick
     @Override
     public void onClick(View button) {
         int id = button.getId();
+
+        //Set the ColorSelectFragment according to the button
         if(id == R.id.rgbSelect){
             owner.setColorSelectFragment(new RGBSelectFragment());
         }else if(id == R.id.hsvSelect){

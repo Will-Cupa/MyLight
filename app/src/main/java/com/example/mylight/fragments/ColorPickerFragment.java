@@ -7,9 +7,10 @@ import androidx.annotation.NonNull;
 
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.SeekBar;
 
-import com.example.mylight.MainActivity;
+import com.example.mylight.Activities.MainActivity;
 import com.example.mylight.R;
 
 public class ColorPickerFragment extends ColorSelectFragment  implements View.OnTouchListener, SeekBar.OnSeekBarChangeListener {
@@ -42,9 +43,25 @@ public class ColorPickerFragment extends ColorSelectFragment  implements View.On
         //Add listener to component
         seekBar.setOnSeekBarChangeListener(this);
         colorWheel.setOnTouchListener(this);
+
+        //Add listener to be called when layout calculations ends
+        //This is needed otherwise we would get 0
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                //When first calculations ends, we don't need the listener anymore
+                view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                //Get the radius of the wheel
+                radius = (float)Math.min(view.getWidth()/2,view.getHeight())/2;
+            }
+        });
+
+
     }
 
     public void updateColor(){
+        //Convert color
         int color = Color.HSVToColor(colorHSV);
 
         //Set color in main activity
@@ -54,15 +71,13 @@ public class ColorPickerFragment extends ColorSelectFragment  implements View.On
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN){
-            if(radius == 0.0f){
-                radius = (float)Math.min(v.getWidth(),v.getHeight())/2;
-            }
-
-            //Center of circle
+            //Vector between touch location and center of wheel
             float x = event.getX() - v.getPivotX();
             float y = event.getY() - v.getPivotY();
 
+            //Saturation is length of vector divided by radius of the wheel
             colorHSV[1] = (float)Math.sqrt(x*x + y*y)/ radius; //Saturation
+            //Hue is angle between vector and y axis, mapped to 0 - 360
             colorHSV[0] = (getAngleWithYAxis(x,y) + 360) % 360; //Hue
 
             updateColor();

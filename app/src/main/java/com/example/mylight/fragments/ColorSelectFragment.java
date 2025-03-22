@@ -2,9 +2,7 @@ package com.example.mylight.fragments;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,8 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mylight.MainActivity;
-import com.example.mylight.R;
+import com.example.mylight.Activities.MainActivity;
 
 public class ColorSelectFragment extends Fragment{
     protected MainActivity owner;

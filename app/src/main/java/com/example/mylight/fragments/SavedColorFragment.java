@@ -2,26 +2,21 @@ package com.example.mylight.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.GridView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.mylight.MainActivity;
+import com.example.mylight.Activities.MainActivity;
 import com.example.mylight.R;
-import com.example.mylight.SaveColorAdapter;
 import com.example.mylight.views.SavedColorButton;
 
 import java.util.ArrayList;
 
 public class SavedColorFragment extends ColorSelectFragment implements View.OnClickListener {
     private ArrayList<Integer> colors;
-    private SaveColorAdapter adapter;
+    private GridItemManager adapter;
 
     public SavedColorFragment(){
         fragmentId = R.layout.fragment_saved_color;
@@ -35,7 +30,7 @@ public class SavedColorFragment extends ColorSelectFragment implements View.OnCl
         owner = (MainActivity)getActivity();
 
         setColorList();
-        adapter = new SaveColorAdapter(getContext(), colors, this);
+        adapter = new GridItemManager(getContext(), colors, this);
 
         GridView grid = (GridView) view.findViewById(R.id.colorList);
         grid.setAdapter(adapter);

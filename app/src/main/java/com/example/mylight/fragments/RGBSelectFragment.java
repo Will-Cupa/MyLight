@@ -5,14 +5,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.mylight.MainActivity;
+import com.example.mylight.Activities.MainActivity;
 import com.example.mylight.R;
 
 public class RGBSelectFragment extends ColorSelectFragment implements View.OnClickListener{
@@ -24,11 +22,17 @@ public class RGBSelectFragment extends ColorSelectFragment implements View.OnCli
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Get current ViewGroup
         ViewGroup main = (ViewGroup) view.findViewById(R.id.RGBSelectMain);
+
+        //Get owner
         owner = (MainActivity) getActivity();
+
+        //Get all its children
         for (int i = 0; i < main.getChildCount(); i++) {
             View child = main.getChildAt(i);
             if (child instanceof Button) {
+                //if it's button, add the listener
                 child.setOnClickListener(this);
             }
         }
@@ -36,12 +40,14 @@ public class RGBSelectFragment extends ColorSelectFragment implements View.OnCli
 
 
     public void onClick(View button) {
+        //Separate component from the lamp color
         int red = Color.red(lampColor);
         int green = Color.green(lampColor);
         int blue = Color.blue(lampColor);
 
         int id = button.getId();
 
+        //Add or remove from component based on button
         if (id == R.id.addRed) {
             red += 10;
 
@@ -80,6 +86,7 @@ public class RGBSelectFragment extends ColorSelectFragment implements View.OnCli
             }
         }
 
+        //Recombine color
         lampColor = Color.rgb(red, green, blue);
 
         owner.updateColor(lampColor);

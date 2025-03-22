@@ -1,4 +1,4 @@
-package com.example.mylight;
+package com.example.mylight.Activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,14 +10,15 @@ import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.mylight.R;
 import com.example.mylight.fragments.ColorPickerFragment;
-import com.example.mylight.fragments.RGBSelectFragment;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        //RGBSelectFragment frag = new RGBSelectFragment();
+        //Set default ColorSelect fragment
         ColorPickerFragment frag = new ColorPickerFragment();
         setColorSelectFragment(frag);
 
@@ -117,10 +118,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void updateTextColor(int color){
+        //Check luminance of the color and update text color accordingly
         if(Color.luminance(color) <= 0.5){
-            preview.setTextColor(getResources().getColor(R.color.white));
+            preview.setTextColor(ContextCompat.getColor(this, R.color.white));
         }else{
-            preview.setTextColor(getResources().getColor(R.color.black));
+            preview.setTextColor(ContextCompat.getColor(this, R.color.black));
         }
     }
 
@@ -128,13 +130,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private final int colorSet[];
         private final Handler handler;
 
-        private boolean started;
-
         public RainbowThread(int initialColor, int colorNumber){
             Log.d("Thread","thread created");
+
+            //length + 1 because there's also the initial color
             colorSet = new int[colorNumber + 1];
             handler = new Handler();
+
+            //fill colorSet with random colors
             randomColors();
+
+            //Set the first and last color to the initial color
+            //Needed to smooth in and out transition
             colorSet[0] = initialColor;
             colorSet[colorNumber] = initialColor;
         }
@@ -142,15 +149,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void randomColors(){
             int red, green, blue;
             for(int i = 1; i < colorSet.length - 1; i++){
+                //Get random value for each channel, between 0 and 255
                 red = (int) (Math.random() * 255);
                 green = (int) (Math.random() * 255);
                 blue = (int) (Math.random() * 255);
 
+                //Add color
                 colorSet[i] =  Color.rgb(red, green, blue);
             }
         }
 
+        //lerp stands for Linear Interpolate
         public int lerpColor(int i, float factor){
+            //lerp each channel
             int red = lerpChannel(Color.red(colorSet[i]),Color.red(colorSet[i+1]), factor);
             int green = lerpChannel(Color.green(colorSet[i]),Color.green(colorSet[i+1]), factor);
             int blue = lerpChannel(Color.blue(colorSet[i]),Color.blue(colorSet[i+1]), factor);
@@ -159,17 +170,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         public int lerpChannel(int chan1, int chan2, float factor){
+            //Linear interpolation formula
             return (int)((chan2 - chan1) * factor + chan1);
         }
 
         @Override
         public void run(){
-            Log.d("Thread","thread started");
             for(int i = 0; i < colorSet.length - 1; i++) {
                 float fraction = 0;
                 while(fraction < 1){
+                    //Transition between color i and i+1
                     int color = lerpColor(i,fraction);
-                    fraction += 0.01;
+                    fraction += 0.01; //Factor of transition, lower means smoother transition
+
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -177,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
 
+                    //Wait a bit before changing the color
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
@@ -196,60 +210,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         public String formatChannel(int channel){
+            //Format a single channel
             String result;
             result = Integer.toHexString(channel);
             if(result.length() < 2){
+                //if too short, add a 0
                 result = "0" + result;
             }
             return result;
         }
 
         public String formatColor(){
+            //Parse it channel and then return
             return formatChannel(Color.red(color)) + formatChannel(Color.green(color)) + formatChannel(Color.blue(color));
         }
 
         public void run() {
             try {
-                // Tentative de connexion au server
+                //Connect to server
                 Socket socket = new Socket("chadok.info", 9998);
-                // Flux sortant et entrant
+                //Create streams
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                // Envoi des deux paramètres au serveur
+                //Send color to server
                 writer.println("01" + formatColor());
                 Log.d("server", formatColor());
 
                 try {
-                    // Gestion de l'interruption potentielle tant que le serveur n'a pas répondu
+                    //Manage interrupt
                     while (!reader.ready()) {
                         Thread.sleep(500);
                     }
-                    // Lecture du résultat
+                    //Read and display response
                     Log.i("server",reader.readLine());
-                    // Affichage du résultat
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
-                } catch (InterruptedException e) {
-                    // Cas où l'utilisateurice a demandé l'interruption
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
 
-                        }
-                    });
+                } catch (InterruptedException e) {
+                    //If interrupted
                 }
                 socket.close();
             } catch (IOException e) {
-                // Cas où la connexion au serveur a échoué
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
+                //If failed to reach server
             }
         }
     }
