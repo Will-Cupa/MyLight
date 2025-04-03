@@ -8,6 +8,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:label="@string/app_name"
+        android:icon="@drawable/light_icon"
         android:roundIcon="@drawable/light_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyLight"
